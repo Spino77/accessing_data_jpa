@@ -4,7 +4,9 @@ import com.example.accessingdatajpa.dto.CustomerDto;
 import com.example.accessingdatajpa.model.Customer;
 import com.example.accessingdatajpa.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -40,5 +42,28 @@ public class CustomerService {
         Customer customer = customerRepository.save(c);
         return new CustomerDto(customer.getFirstName(), customer.getLastName());
     }
+
+    public CustomerDto updateCustomer(Long id, CustomerDto customerDto) {
+        Customer c = customerRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Customer not found, with ID: " + id)
+        );
+        c.setFirstName(customerDto.first_name());
+        c.setLastName(customerDto.last_name());
+        customerRepository.save(c);
+        return new CustomerDto(c.getFirstName(), c.getLastName());
+    }
+
+    public void deleteCustomer(Long id) {
+        customerRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Customer not found, with ID: " + id)
+        );
+        customerRepository.deleteById(id);
+    }
+
+
 
 }

@@ -9,3 +9,18 @@ Content-Type: application/json
 
 ### request
 GET http://localhost:8080/customers
+
+
+### DELETE
+DELETE http://localhost:8080/customers/4
+
+
+### PUT
+PUT http://localhost:8080/customers/1
+Content-Type: application/json
+
+{
+  "first_name": "Linus",
+  "last_name": "Torvalds"
+}
+
