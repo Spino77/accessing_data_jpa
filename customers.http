@@ -4,7 +4,8 @@ Content-Type: application/json
 
 {
   "first_name": "Pau",
-  "last_name": "Duque"
+  "last_name": "Duque",
+  "email": "pau@email"
 }
 
 ### request
@@ -12,7 +13,7 @@ GET http://localhost:8080/customers
 
 
 ### DELETE
-DELETE http://localhost:8080/customers/4
+DELETE http://localhost:8080/customers/3
 
 
 ### PUT
@@ -21,6 +22,7 @@ Content-Type: application/json
 
 {
   "first_name": "Linus",
-  "last_name": "Torvalds"
+  "last_name": "Torvalds",
+  "email": "Torvals@email"
 }
 

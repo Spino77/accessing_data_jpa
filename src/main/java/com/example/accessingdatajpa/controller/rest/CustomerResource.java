@@ -1,7 +1,9 @@
 package com.example.accessingdatajpa.controller.rest;
 
 import com.example.accessingdatajpa.dto.CustomerDto;
+import com.example.accessingdatajpa.dto.IncidentDto;
 import com.example.accessingdatajpa.model.Customer;
+import com.example.accessingdatajpa.repository.IncidentRepository;
 import com.example.accessingdatajpa.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -48,5 +50,8 @@ public class CustomerResource {
     public void deleteCustomer(@PathVariable("id") Long id) {
         customerService.deleteCustomer(id);
     }
+
+
+
 
 }

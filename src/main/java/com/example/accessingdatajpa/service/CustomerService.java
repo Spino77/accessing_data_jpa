@@ -1,8 +1,11 @@
 package com.example.accessingdatajpa.service;
 
 import com.example.accessingdatajpa.dto.CustomerDto;
+import com.example.accessingdatajpa.dto.IncidentDto;
 import com.example.accessingdatajpa.model.Customer;
+import com.example.accessingdatajpa.model.Incident;
 import com.example.accessingdatajpa.repository.CustomerRepository;
+import com.example.accessingdatajpa.repository.IncidentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,29 +21,29 @@ public class CustomerService {
     public List<CustomerDto> getAllCustomers() {
         List<Customer> lc = (List<Customer>) customerRepository.findAll();
         List<CustomerDto> lcdto = lc.stream()
-                .map(c -> new CustomerDto(c.getFirstName(), c.getLastName()))
+                .map(c -> new CustomerDto(c.getFirstName(), c.getLastName(), c.getEmail(), c.getIncidents()))
                 .toList();
         return lcdto;
     }
 
     public CustomerDto getCustomerById(long id) {
         Customer c = customerRepository.findById(id);
-        CustomerDto cdto = new CustomerDto(c.getFirstName(), c.getLastName());
+        CustomerDto cdto = new CustomerDto(c.getFirstName(), c.getLastName(), c.getEmail(), c.getIncidents());
         return cdto;
     }
 
     public List<CustomerDto> getCustomersByLastName(String name) {
         List<Customer> lc = (List<Customer>) customerRepository.findByLastName(name);
         List<CustomerDto> lcdto = lc.stream()
-                .map(c -> new CustomerDto(c.getFirstName(), c.getLastName()))
+                .map(c -> new CustomerDto(c.getFirstName(), c.getLastName(), c.getEmail(), c.getIncidents()))
                 .toList();
         return lcdto;
     }
 
     public CustomerDto addCustomer(CustomerDto customerDto) {
-        Customer c = new Customer(customerDto.first_name(), customerDto.last_name());
+        Customer c = new Customer(customerDto.first_name(), customerDto.last_name(), customerDto.email());
         Customer customer = customerRepository.save(c);
-        return new CustomerDto(customer.getFirstName(), customer.getLastName());
+        return new CustomerDto(customer.getFirstName(), customer.getLastName(), c.getEmail(), c.getIncidents());
     }
 
     public CustomerDto updateCustomer(Long id, CustomerDto customerDto) {
@@ -52,7 +55,7 @@ public class CustomerService {
         c.setFirstName(customerDto.first_name());
         c.setLastName(customerDto.last_name());
         customerRepository.save(c);
-        return new CustomerDto(c.getFirstName(), c.getLastName());
+        return new CustomerDto(c.getFirstName(), c.getLastName(), c.getEmail(), c.getIncidents());
     }
 
     public void deleteCustomer(Long id) {
@@ -63,7 +66,4 @@ public class CustomerService {
         );
         customerRepository.deleteById(id);
     }
-
-
-
 }

@@ -2,6 +2,9 @@ package com.example.accessingdatajpa.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "customers")
 public class Customer {
@@ -13,21 +16,30 @@ public class Customer {
     private String firstName;
     @Column(name = "last_name", nullable = false, length = 100)
     private String lastName;
-    @Column(unique = true)
+    @Column(name = "email", nullable = false, length = 100, unique = true)
     private String email;
+
+    @OneToMany(
+            mappedBy = "customer",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    private List<Incident> incidents = new ArrayList<>();
 
     protected Customer() {}
 
-    public Customer(String firstName, String lastName) {
+    public Customer(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
     }
 
     @Override
     public String toString() {
         return String.format(
-                "Customer[id=%d, firstName='%s', lastName='%s']",
-                id, firstName, lastName);
+                "Customer[id=%d, firstName='%s', lastName='%s', email='%s']",
+                id, firstName, lastName, email);
     }
 
     public Long getId() {
@@ -42,6 +54,14 @@ public class Customer {
         return lastName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public List<Incident> getIncidents() {
+        return incidents;
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -49,4 +69,6 @@ public class Customer {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
+    public void setEmail(String email) { this.email = email; }
 }
